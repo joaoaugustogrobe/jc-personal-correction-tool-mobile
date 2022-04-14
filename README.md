@@ -1,16 +1,37 @@
-# correction_tool
+# Correction Tool Mobile - Work In Progress
 
-A new Flutter project.
+A mobile app for students interacts with the Correction Tool.
+This app allows the user to check their subjects and exercises, and view feedback from previous submissions sent to an exercise.
+
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+To run the app locally, ensure that your Flutter is installed and working
 
-A few resources to get you started if this is your first Flutter project:
+- Run `flutter doctor` and verify if it's ready to use.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+- Download the source code using 
+```
+git clone https://github.com/joaoaugustogrobe/jc-personal-correction-tool-mobile.git
+```
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Download the dependencies of the project using
+```
+flutter pub get
+```
+
+- Run the app with the command
+```
+flutter run
+```
+
+## Roadmap
+[x] Authentication flow
+[x] List of subjects
+[ ] List of exercises for each subject
+[ ] View the submission of a given exercise
+[ ] API Integration
+[ ] Face ID authentication
+
+### Author
+João Augusto Grobe Castilho
