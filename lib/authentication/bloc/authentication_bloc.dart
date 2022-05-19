@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../repositories/authentication_repository.dart';
 import '../../repositories/user_repository.dart';
 import '/models/user.dart';
@@ -42,6 +44,7 @@ class AuthenticationBloc
     AuthenticationStatusChanged event,
     Emitter<AuthenticationState> emit,
   ) async {
+    print('status changed, status: ${event.status}');
     switch (event.status) {
       case AuthenticationStatus.unauthenticated:
         return emit(const AuthenticationState.unauthenticated());
@@ -49,6 +52,7 @@ class AuthenticationBloc
         return emit(const AuthenticationState.resettingPassword());
       case AuthenticationStatus.authenticated:
         final user = await _tryGetUser();
+        print('hasUser, user: $user');
         return emit(user != null
             ? AuthenticationState.authenticated(user)
             : const AuthenticationState.unauthenticated());
@@ -61,6 +65,7 @@ class AuthenticationBloc
     AuthenticationLogoutRequested event,
     Emitter<AuthenticationState> emit,
   ) {
+    print('AuthenticationLogoutRequested');
     _authenticationRepository.logOut();
   }
 

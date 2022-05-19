@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:correction_tool/repositories/authentication_repository.dart';
 import 'package:equatable/equatable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../login.dart';
 import 'package:formz/formz.dart';
 
@@ -16,9 +17,23 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<LoginEmailChanged>(_onEmailChanged);
     on<LoginPasswordChanged>(_onPasswordChanged);
     on<LoginSubmitted>(_onSubmitted);
+    on<LoginPageLoaded>(_onLoginPageLoaded);
   }
 
   final AuthenticationRepository _authenticationRepository;
+
+  void _onLoginPageLoaded(
+    LoginPageLoaded event,
+    Emitter<LoginState> emit,
+  ) async {
+    // emit(const final prefs = await SharedPreferences.getInstance();
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('bearer');
+    print('token: $token');
+    if (token != null) {
+      _authenticationRepository.logInWithToken(token);
+    }
+  }
 
   void _onEmailChanged(
     LoginEmailChanged event,

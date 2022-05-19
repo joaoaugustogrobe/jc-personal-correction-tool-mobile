@@ -17,5 +17,6 @@ class AuthenticationStatusChanged extends AuthenticationEvent {
 }
 
 class AuthenticationLogoutRequested extends AuthenticationEvent {}
+class AuthenticationAppStarted extends AuthenticationEvent {}
 class AuthenticationForgotPasswordRequested extends AuthenticationEvent {}
 class AuthenticationForgotPasswordBackToLoginRequested extends AuthenticationEvent {}

@@ -43,8 +43,9 @@ class _EmailInput extends StatelessWidget {
     return BlocBuilder<LoginBloc, LoginState>(
       buildWhen: (previous, current) => previous.email != current.email,
       builder: (context, state) {
-        return TextField(
+        return TextFormField(
           key: const Key('loginForm_emailInput_textField'),
+          initialValue: 'multicraftbrpr@gmail.com',
           onChanged: (email) =>
               context.read<LoginBloc>().add(LoginEmailChanged(email)),
           decoration: InputDecoration(
@@ -68,8 +69,9 @@ class _PasswordInput extends StatelessWidget {
     return BlocBuilder<LoginBloc, LoginState>(
       buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
-        return TextField(
+        return TextFormField(
           key: const Key('loginForm_passwordInput_textField'),
+          initialValue: 'demo1234',
           onChanged: (password) =>
               context.read<LoginBloc>().add(LoginPasswordChanged(password)),
           obscureText: true,

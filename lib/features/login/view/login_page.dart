@@ -12,12 +12,12 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          children: [
-            _SVGCodeTop(),
-            Padding(
+    return Stack(
+      children: [
+        Scaffold(
+          resizeToAvoidBottomInset: false,
+          body: SafeArea(
+            child: Padding(
               padding: const EdgeInsets.all(12),
               child: BlocProvider(
                 create: (context) {
@@ -25,15 +25,16 @@ class LoginPage extends StatelessWidget {
                     authenticationRepository:
                         RepositoryProvider.of<AuthenticationRepository>(
                             context),
-                  );
+                  )..add(LoginPageLoaded());
                 },
                 child: LoginForm(),
               ),
             ),
-            _SVGCodeBottom()
-          ],
+          ),
         ),
-      ),
+        const _SVGCodeTop(),
+        const _SVGCodeBottom(),
+      ],
     );
   }
 }

@@ -99,6 +99,7 @@ class _SignUpPageState extends State<SignUpPage> {
               Form(
                 key: formEmailKey,
                 child: TextFormField(
+                  initialValue: 'multicraftbrpr@gmail.com',
                   decoration: const InputDecoration(
                     labelText: 'Email',
                     border: OutlineInputBorder(

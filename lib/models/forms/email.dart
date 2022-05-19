@@ -11,7 +11,7 @@ class Email extends FormzInput<String, EmailValidationError> {
     final bool hasMatch = RegExp(
             r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
         .hasMatch(value!);
-    return value?.isNotEmpty == true && hasMatch
+    return value.isNotEmpty == true && hasMatch
         ? null
         : EmailValidationError.empty;
   }
