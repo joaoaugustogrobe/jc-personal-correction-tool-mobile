@@ -27,10 +27,15 @@ flutter run
 
 ## Roadmap
 [x] Authentication flow
+
 [x] List of subjects
+
 [ ] List of exercises for each subject
+
 [ ] View the submission of a given exercise
+
 [ ] API Integration
+
 [ ] Face ID authentication
 
 ### Author
