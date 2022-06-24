@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../models/exercice.dart';
 import '../../../models/subject.dart';
+import '../../../models/test.dart';
 import '../../../repositories/subject_repository.dart';
 import '../bloc/exercice_bloc.dart';
 
@@ -12,7 +13,7 @@ class ExercicePage extends StatelessWidget {
     return MaterialPageRoute<void>(
       builder: (_) => ExercicePage(exercice: exercice),
       fullscreenDialog: true,
-    );
+      );
   }
 
   final Exercice exercice;
@@ -41,6 +42,15 @@ class ExercicePage extends StatelessWidget {
                   case SubjectsStatus.fetching:
                   // return LoadingState(subject: subject);
                   case SubjectsStatus.listview:
+                    return Row(
+                      children: [
+                        Card(
+                            child: ListTile(
+                          title: Text(exercice.title),
+                          subtitle: Text(exercice.description),
+                        ))
+                      ],
+                    );
                   case SubjectsStatus.unknown:
                     return const Text('unknown');
                   default:

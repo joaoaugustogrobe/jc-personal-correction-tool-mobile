@@ -50,9 +50,14 @@ class AuthenticationBloc
         return emit(const AuthenticationState.unauthenticated());
       case AuthenticationStatus.resettingPassword:
         return emit(const AuthenticationState.resettingPassword());
+      case AuthenticationStatus.requestLocalAuthPermission:
+        final user = await _tryGetUser();
+        return emit(user != null
+            ? AuthenticationState.requestLocalAuthPermission(user)
+            : const AuthenticationState.unauthenticated());
+        break;
       case AuthenticationStatus.authenticated:
         final user = await _tryGetUser();
-        print('hasUser, user: $user');
         return emit(user != null
             ? AuthenticationState.authenticated(user)
             : const AuthenticationState.unauthenticated());

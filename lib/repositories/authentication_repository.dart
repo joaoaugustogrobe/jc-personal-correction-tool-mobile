@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:correction_tool/models/user.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/requests/generic_request.dart';
@@ -11,7 +12,8 @@ enum AuthenticationStatus {
   unknown,
   authenticated,
   unauthenticated,
-  resettingPassword
+  resettingPassword,
+  requestLocalAuthPermission,
 }
 
 class AuthenticationRepository {
@@ -50,10 +52,7 @@ class AuthenticationRepository {
       );
       Map<String, dynamic> jsonData = jsonDecode(response.body);
       var responseData = StudentLoginResponse.fromJson(jsonData);
-
       httpClient.authenticate(responseData.payload!.token.toString());
-      final prefs = await SharedPreferences.getInstance();
-      prefs.setString('bearer', responseData.payload!.token.toString());
 
       if (responseData.status == 'error') throw Exception(responseData.message);
       _user = responseData.payload?.user;
@@ -63,6 +62,22 @@ class AuthenticationRepository {
     }
 
     _controller.add(AuthenticationStatus.authenticated);
+    try{
+      final storage = new FlutterSecureStorage();
+      final allowLocalAuth = await storage.read(key: 'KEY_ALLOW_LOCAL_AUTH');
+
+      if(allowLocalAuth == null){
+        _controller.add(AuthenticationStatus.requestLocalAuthPermission);
+      }
+
+      if(allowLocalAuth != 'false'){
+        await storage.write(key: 'KEY_EMAIL', value: email);
+        await storage.write(key: 'KEY_PASSWORD', value: password);
+      }
+
+    }catch(e){
+      print(e);
+    }
   }
 
   //User getter
@@ -94,8 +109,9 @@ class AuthenticationRepository {
   }
 
   void logOut() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('bearer');
+    // final storage = new FlutterSecureStorage();
+    // storage.delete(key: 'KEY_ALLOW_LOCAL_AUTH');
+
     _controller.add(AuthenticationStatus.unauthenticated);
   }
 

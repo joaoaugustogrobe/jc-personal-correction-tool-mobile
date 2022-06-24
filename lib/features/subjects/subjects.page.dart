@@ -74,15 +74,25 @@ class _SubjectsContentWrapperState extends State<SubjectsContentWrapper> {
             return LoadingState();
           case SubjectsStatus.listview:
             return ListView.builder(
-              itemBuilder: (context, index) => ListTile(
-                title: Text(RepositoryProvider.of<SubjectRepository>(context).getSubjects()[index].name),
-                subtitle: Text(RepositoryProvider.of<SubjectRepository>(context).getSubjects()[index].teacher.name),
-                onTap: () {
-                  showSubjectDetails(context, RepositoryProvider.of<SubjectRepository>(context).getSubjects()[index]);
-                }
-              ),
-              itemCount: RepositoryProvider.of<SubjectRepository>(context).getSubjects().length
-            );
+                itemBuilder: (context, index) => ListTile(
+                    title: Text(
+                        RepositoryProvider.of<SubjectRepository>(context)
+                            .getSubjects()[index]
+                            .name),
+                    subtitle: Text(
+                        RepositoryProvider.of<SubjectRepository>(context)
+                            .getSubjects()[index]
+                            .teacher
+                            .name),
+                    onTap: () {
+                      showSubjectDetails(
+                          context,
+                          RepositoryProvider.of<SubjectRepository>(context)
+                              .getSubjects()[index]);
+                    }),
+                itemCount: RepositoryProvider.of<SubjectRepository>(context)
+                    .getSubjects()
+                    .length);
           case SubjectsStatus.unknown:
             return const Text('unknown');
           default:

@@ -4,7 +4,10 @@ import 'package:equatable/equatable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../login.dart';
 import 'package:formz/formz.dart';
-
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:local_auth_android/local_auth_android.dart';
+import 'package:local_auth_ios/local_auth_ios.dart';
+import 'package:local_auth/local_auth.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -26,12 +29,26 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     LoginPageLoaded event,
     Emitter<LoginState> emit,
   ) async {
-    // emit(const final prefs = await SharedPreferences.getInstance();
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('bearer');
-    print('token: $token');
-    if (token != null) {
-      _authenticationRepository.logInWithToken(token);
+    const storage = FlutterSecureStorage();
+    final allowLocalAuth = await storage.read(key: 'KEY_ALLOW_LOCAL_AUTH');
+    if(allowLocalAuth == 'false' || allowLocalAuth == null) return;
+
+    final email = await storage.read(key: 'KEY_EMAIL');
+    final password = await storage.read(key: 'KEY_PASSWORD');
+
+    if (email != null && password != null) {
+      try {
+        final LocalAuthentication auth = LocalAuthentication();
+
+        final bool didAuthenticate = await auth.authenticate(
+            localizedReason: 'Please authenticate to use stored credentials',
+            options: const AuthenticationOptions(biometricOnly: true));
+        if (didAuthenticate) {
+          _authenticationRepository.logIn(email: email, password: password);
+        }
+      } catch (e) {
+        print(e);
+      }
     }
   }
 

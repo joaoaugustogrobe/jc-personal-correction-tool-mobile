@@ -65,7 +65,7 @@ class SubjectPage extends StatelessWidget {
                                               color: Colors.red,
                                               shape: BoxShape.circle),
                                           child:
-                                              SizedBox(height: 12, width: 12),
+                                              const SizedBox(height: 12, width: 12),
                                         ),
                                       Text(SubjectRepository()
                                           .getExercices()[index]

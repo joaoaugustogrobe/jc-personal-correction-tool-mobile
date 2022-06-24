@@ -7,6 +7,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 
 import 'authentication/bloc/authentication_bloc.dart';
+import 'features/localauth/bloc/localauth_bloc.dart';
+import 'features/localauth/view/localauth_page.dart';
 import 'features/login/login.dart';
 import 'features/reset_password/reset_password.dart';
 import 'features/splash/splash.page.dart';
@@ -23,25 +25,45 @@ class CorrectionTool extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
-      providers: [
-        RepositoryProvider<AuthenticationRepository>(
-          create: (context) => AuthenticationRepository(),
-        ),
-        RepositoryProvider<SubjectRepository>(
-          create: (context) => SubjectRepository(),
-        ),
-        RepositoryProvider<UserRepository>(
-          create: (context) => UserRepository(),
-        ),
-      ],
-      child: BlocProvider(
-        create: (context) => AuthenticationBloc(
-          authenticationRepository: RepositoryProvider.of<AuthenticationRepository>(context),
-          userRepository: RepositoryProvider.of<UserRepository>(context),
-        ),
-        child: AppView(),
-      ),
-    );
+        providers: [
+          RepositoryProvider<AuthenticationRepository>(
+            create: (context) => AuthenticationRepository(),
+          ),
+          RepositoryProvider<SubjectRepository>(
+            create: (context) => SubjectRepository(),
+          ),
+          RepositoryProvider<UserRepository>(
+            create: (context) => UserRepository(),
+          ),
+        ],
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider<AuthenticationBloc>(
+                create: (BuildContext context) => AuthenticationBloc(
+                      authenticationRepository:
+                          RepositoryProvider.of<AuthenticationRepository>(
+                              context),
+                      userRepository:
+                          RepositoryProvider.of<UserRepository>(context),
+                    )),
+            BlocProvider<LocalAuthBloc>(
+              create: (BuildContext context) => LocalAuthBloc(
+                authenticationRepository:
+                    RepositoryProvider.of<AuthenticationRepository>(context),
+              ),
+            )
+          ],
+          child: AppView(),
+        )
+        // child: BlocProvider(
+        //   create: (context) => AuthenticationBloc(
+        //     authenticationRepository:
+        //         RepositoryProvider.of<AuthenticationRepository>(context),
+        //     userRepository: RepositoryProvider.of<UserRepository>(context),
+        //   ),
+        //   child: AppView(),
+        // ),
+        );
   }
 }
 
@@ -92,7 +114,14 @@ class _AppViewState extends State<AppView> {
                   (route) => false,
                 );
                 break;
+              case AuthenticationStatus.requestLocalAuthPermission:
+                print('requestLocalAuthPermission');
+                _navigator.push<void>(
+                  LocalAuthPage.route(),
+                );
+                break;
               case AuthenticationStatus.unauthenticated:
+                print('request local auth');
                 _navigator.pushAndRemoveUntil<void>(
                   LoginPage.route(),
                   (route) => false,

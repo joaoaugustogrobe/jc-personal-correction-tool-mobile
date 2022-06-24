@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "873297996315",
+    "project_id": "correctiontool-806bf",
+    "storage_bucket": "correctiontool-806bf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:873297996315:android:22ca3060fed663db36a6be",
+        "android_client_info": {
+          "package_name": "com.example.correction_tool"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "873297996315-8urn4b9cr55ijpsrtp1jllguedlaq36a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCs2CzXkqaZr3RmhO7pMS8ZXIcCqSqLFV0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "873297996315-8urn4b9cr55ijpsrtp1jllguedlaq36a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
